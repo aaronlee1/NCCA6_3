@@ -1,0 +1,106 @@
+html { 
+	height: 100%;
+}
+body {
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+#map-canvas {
+    height: 100%;
+    width: 100%;
+	margin-right: 0%;
+}
+
+#panel {
+	position: absolute;
+	float: left;
+	left: 25px;
+	top: 25px;
+	margin-left: 0px;
+	z-index: 1;
+	background: #3083D6;
+	opacity: 0.8;
+	font-size:16px;
+	font-weight: bold;
+	padding: 10px;
+	border: 1px solid #999;
+	margin: 10px;
+	border-radius: 6px;
+	width: 230px;
+}
+.Checkbox {
+	width: 15px;
+	height:15px;
+	margin: 1px 4px 0 0;
+	vertical-align: bottom;
+	cursor: pointer;
+	margin-top: 8px;
+	margin-left: 20px;
+}
+#legend {
+	position: absolute;
+	background: #3083D6;
+	padding: 10px;
+	margin: 5px;
+	font-size: 12px;
+	border-radius: 10px;
+	opacity: 0.9;
+	
+}
+
+.horizontal {
+	display: inline;
+	border: 1px solid;
+	height: 12px;
+	width: 12px;
+	margin-right: 3px;
+	float: left;
+}
+.red {
+	background: #FF3333;
+}
+.yellow {
+	background: #FFFF4D;
+}
+.green {
+	background: #4DDB4D;
+}
+.blue {
+	background: #4747FF;
+}
+.purple {
+	background: #AD5CFF;
+}
+.brown {
+	background: #A37547;
+}
+.grey {
+	background: #969F9F;
+}
+.white {
+	background: #FFFFFF;
+}
+.Select {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	width: 220px;
+	padding: 5px;
+	font-size: 14px;
+	line-height: 1;
+	border: 0;
+	border-radius: 4px;
+	height: 28px;
+	cursor: pointer;
+	text-overflow: '';
+	max-width: 150px;
+}
+.Select option{
+	width: 220px;
+}
+
+#title {
+	position: absolute;
+	float: left;
+}
+	

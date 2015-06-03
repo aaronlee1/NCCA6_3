@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Fusion Tables layers</title>
+	<script type="text/javascript" src="http://www.google.com/jsapi"></script> 
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=geometry,visualization&sensor=false"></script>
+    <script type="text/javascript" src="Source/squel.min.js"></script>
+    <script type="text/javascript" src="Source/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="Source/MarkersFTQueryIW6_3.js"></script>
+	<script type="text/javascript" src="Source/leaflet.js"></script>
+	<script type="text/javascript" src="Source/leaflet-src.js"></script>
+	<link rel = "stylesheet" type = "text/css" href = "Source/UI.css">		
+	</head>
+	<body>
+    <div id="map-canvas"></div>
+	<div id="panel">
+		<p align="center"><img src="http://static1.squarespace.com/static/54f47b70e4b08ec9ae15e0a9/t/555541cae4b02d567e66efd1/1433358455184/?format=1500w" height= "200"></p>
+		<label>
+			Creative Industries
+		</label>
+		<div id="panel_data">
+			<b class ="Text">Category: </b>
+			<select id="Niche" class = "Select" onchange = "clickCat();">
+				<option value="0">All</option>
+			</select>
+			<br>
+			<b class = "Text">Firm: </b>
+			<select id ="Firms" class = "Select" onchange = "clickFirms();firmChoice();">
+				<option value="1">Browse Firms</option>
+			</select><hr>
+			<input type ="checkbox" class ="Checkbox" id="saLayer" value="saLayer">Service Area<br>
+		 </div>	
+	</div>
+  </body>
+</html>
+
