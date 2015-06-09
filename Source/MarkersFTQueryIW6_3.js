@@ -97,6 +97,7 @@ function getData(Column) {
 }
 
 function dropdownFill(selectbox, data) {
+	console.log("dropdown: " + data);
 	var List = new Array();
 	for (var i=0; i <data.rows.length; i++) {
 		if (List.indexOf(data.rows[i][0])==-1){
@@ -120,18 +121,21 @@ function clickCat(){
 	selFir = FirmsBox.value;
 	
 	if (selCat != 0) {
-		var query = "https://www.googleapis.com/fusiontables/v1/query?sql=SELECT Firms FROM "+ fTableID +"  WHERE Niche='" + selCat + "'&key=AIzaSyAjYEWvtUDpX0WkI7_pKmlzwrMKgJnore4";
+		var query = "https://www.googleapis.com/fusiontables/v1/query?sql=SELECT Firms,LatDec,LonDec FROM "+ fTableID +"  WHERE Niche='" + selCat + "'&key=AIzaSyAjYEWvtUDpX0WkI7_pKmlzwrMKgJnore4";
 		var queryurl = encodeURI(query);
+
 		var dataQuer = $.get(queryurl, CatUpdateHandler);
-		updateMap();
+		
 	}else {
-		getData("Firms");
-		updateMap();
+		var query = "https://www.googleapis.com/fusiontables/v1/query?sql=SELECT Firms,LatDec,LonDec FROM "+ fTableID +"&key=AIzaSyAjYEWvtUDpX0WkI7_pKmlzwrMKgJnore4";
+		var queryurl = encodeURI(query);
+		console.log(queryurl);		
+		var dataQuer = $.get(queryurl, CatUpdateHandler);
 	}
-	
 }
 
 function CatUpdateHandler(data) {
+	console.log(data);
 	var i;
 	for(i=FirmsBox.options.length-1;i>=0;i--)
 	{
@@ -141,6 +145,39 @@ function CatUpdateHandler(data) {
 	addOption(FirmsBox, "All", "0");
 	
 	dropdownFill(FirmsBox, data);
+
+	if(selCat !=0) {
+		initialLayer.setOptions({
+			query: {
+				select: locCol,
+				from: fTableID,
+				where:"Niche = '" +selCat + "'"
+			},
+			templateId: 2,
+			styleId: 2
+		});
+	}else{
+		initialLayer.setOptions({
+			query: {
+				select: locCol,
+				from: fTableID
+			},
+			templateId: 2,
+			styleId: 2
+		});	
+	}	
+	// center the selected points
+	var bounds = new google.maps.LatLngBounds();
+    for(i = 0; i < data.rows.length; i++) {
+        var point = new google.maps.LatLng(
+            data.rows[i][1], 
+            data.rows[i][2]
+            );
+        bounds.extend(point);
+    }
+
+    // zoom to the bounds
+    map.fitBounds(bounds);
 }
 
 function clickFirms(){
@@ -148,60 +185,60 @@ function clickFirms(){
 	selFir = FirmsBox.value;
 	
 	if (selFir != 0) {
-		var query = "https://www.googleapis.com/fusiontables/v1/query?sql=SELECT Firms FROM "+ fTableID +"  WHERE Firms='" + selFir + "'&key=AIzaSyAjYEWvtUDpX0WkI7_pKmlzwrMKgJnore4";
+		var query = "https://www.googleapis.com/fusiontables/v1/query?sql=SELECT Firms,LatDec,LonDec FROM "+ fTableID +"  WHERE Firms='" + selFir + "'&key=AIzaSyAjYEWvtUDpX0WkI7_pKmlzwrMKgJnore4";
 		var queryurl = encodeURI(query);
-		var dataQuer = $.get(queryurl);
-		firmChoice();
+		var dataQuer = $.get(queryurl, FirmUpdateHandler);
 	}else {
-		var i;
-		for (i = FirmsBox.options.length-1;i>=0;i--)
-		{
-			
-		}
-	}
-}
-			
-function updateMap() {
-	
+		if (selCat != 0 ) {
+			var query = "https://www.googleapis.com/fusiontables/v1/query?sql=SELECT Firms,LatDec,LonDec FROM "+ fTableID +"  WHERE Niche='" + selCat + "'&key=AIzaSyAjYEWvtUDpX0WkI7_pKmlzwrMKgJnore4";
+			var queryurl = encodeURI(query);	
+			var dataQuer = $.get(queryurl, CatUpdateHandler);			
+		} else{
+			var query = "https://www.googleapis.com/fusiontables/v1/query?sql=SELECT Firms,LatDec,LonDec FROM "+ fTableID +"&key=AIzaSyAjYEWvtUDpX0WkI7_pKmlzwrMKgJnore4";
+			var queryurl = encodeURI(query);
+			console.log(queryurl);		
+			var dataQuer = $.get(queryurl, CatUpdateHandler);
+		};
 
-	if(selCat !=0) {
-		initialLayer.setMap(null);
-		subLayer = new google.maps.FusionTablesLayer({
+	}
+
+}
+
+function FirmUpdateHandler(data) {
+
+	if(selFir !=0) {
+		initialLayer.setOptions({
 			query: {
 				select: locCol,
 				from: fTableID,
-				where:" Niche = '" +selCat + "'"
+				where:"Firms = '" +selFir + "'"
 			},
 			templateId: 2,
 			styleId: 2
 		});
-	
-	subLayer.setMap(map);
-	
 	}else{
-		initialLayer.setMap(map);
-	}
-		
-}
-function firmChoice() {
-	
-	if(selFir !=0){
-		subLayer.setMap(null);
-		initialLayer.setMap(null);
-		firmLayer = new google.maps.FusionTablesLayer({
-		query: {
-			select: locCol,
+		initialLayer.setOptions({
+			query: {
+				select: locCol,
 				from: fTableID,
-				where:"Firms ='"+selFir +"'"
-		},
-		templateId: 2,
-		styleId: 2
-		});
-		firmLayer.setMap(map);
+				where:"Niche = '" +selCat + "'"
+			},
+			templateId: 2,
+			styleId: 2
+		});	
+	}	
+	// center the selected points
+	var bounds = new google.maps.LatLngBounds();
+    for(i = 0; i < data.rows.length; i++) {
+        var point = new google.maps.LatLng(
+            data.rows[i][1], 
+            data.rows[i][2]
+            );
+        bounds.extend(point);
+    }
 
-		}else{
-				
-	}
+    // zoom to the bounds
+    map.fitBounds(bounds);
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);

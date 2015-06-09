@@ -98,7 +98,9 @@ body {
 .Select option{
 	width: 220px;
 }
-
+#Firms{
+	margin-left: 27px;
+}
 #title {
 	position: absolute;
 	float: left;
